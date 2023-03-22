@@ -1,0 +1,20 @@
+[
+  {
+    "source": "HeadHunter",
+    "name": "Программист Python Junior",
+    "url": "https://hh.ru/vacancy/77146976",
+    "description": null,
+    "salary": null,
+    "date_published": "16.03.2023 17:55:48"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Python разработчик",
+    "url": "https://hh.ru/vacancy/77723429",
+    "description": null,
+    "salary": {
+      "from": null,
+      "to": null,
+      "currency": "RUR",
+      "gross": false
+    }} ]
