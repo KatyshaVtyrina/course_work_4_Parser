@@ -9,77 +9,70 @@ class Connector:
     """
     __data_file = None
 
-    def __init__(self, file):
-        self.__data_file = file
+    def __init__(self, file_path: str):
+        self.__data_file = file_path
         self.__connect()
+
     @property
-    def data_file(self):
+    def data_file(self) -> str:
         return self.__data_file
 
     @data_file.setter
-    def data_file(self, value):
-        # тут должен быть код для установки файла
+    def data_file(self, value: str) -> None:
+        """Установка файла"""
         self.__data_file = value
         self.__connect()
 
-    def __connect(self):
-        """
-        Проверка на существование файла с данными и
-        создание его при необходимости
-        Также проверить на деградацию и возбудить исключение
-        если файл потерял актуальность в структуре данных
-        """
-        try:
-            with open(self.__data_file, 'w') as file:
-                json.dump([], file)
+    def __connect(self) -> None:
+        """Перезаписывает файл на [] или создает новый и записывает []"""
+        with open(self.__data_file, 'w') as file:
+            json.dump([], file)
 
-        except json.decoder.JSONDecodeError:
-            print("Файл поврежден")
+    def insert(self, data: list) -> None:
+        """Запись данных в файл с сохранением структуры и исходных данных"""
 
-    def insert(self, data: list):
-        """
-        Запись данных в файл с сохранением структуры и исходных данных
-        """
         with open(self.__data_file, 'r', encoding='UTF-8') as file:
             data_json = json.load(file)
 
         with open(self.__data_file, 'w', encoding='UTF-8') as file:
             json.dump(data_json + data, file, indent=2, ensure_ascii=False)
 
-    def select(self, query: dict):
+    def select(self, query: dict) -> list:
         """
         Выбор данных из файла с применением фильтрации
-        query содержит словарь, в котором ключ это поле для
-        фильтрации, а значение это искомое значение, например:
-        {'price': 1000}, должно отфильтровать данные по полю price
-        и вернуть все строки, в которых цена 1000
+        query- словаря, в котором ключ - это поле для
+        фильтрации, а значение - это искомое значение, если
+        передан пустой словарь, возвращает все данные файла
         """
+        result = []
+        with open(self.__data_file) as f:
+            data = json.load(f)
 
-        pass
+        if not query:
+            return data
 
-    def delete(self, query):
+        for item in data:
+            if all(item.get(key) == value for key, value in query.items()):
+                result.append(item)
+
+        return result
+
+    def delete(self, query: dict) -> list | None:
         """
         Удаление записей из файла, которые соответствуют запросу,
         как в методе select. Если в query передан пустой словарь, то
         функция удаления не сработает
         """
-        pass
+        if not query:
+            return
 
+        with open(self.__data_file) as f:
+            data = json.load(f)
 
-if __name__ == '__main__':
-    df = Connector('df.json')
+        result = []
+        for item in data:
+            if not all(item.get(key) == value for key, value in query.items()):
+                result.append(item)
 
-    data_for_file = {'id': 1, 'title': 'tet'}
-
-    df.insert(data_for_file)
-    data_from_file = df.select(dict())
-    assert data_from_file == [data_for_file]
-
-    df.delete({'id':1})
-    data_from_file = df.select(dict())
-    assert data_from_file == []
-
-df = Connector('df.json')
-data_for_file = [{'id': 1, 'title': 'tet'}]
-df.insert(data_for_file)
-df.insert([{'id': 2, 'title': 'tet'}, {'id': 3, 'title': 'tet'}])
+        with open(self.__data_file, 'w') as file:
+            json.dump(result, file)
