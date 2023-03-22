@@ -1,9 +1,9 @@
 
-import json
+from classes.engine import HH, SuperJob
 from classes.vacanсy import HHVacancy, SJVacancy
 
 
-def print_vacancies(data: list | str):
+def print_info(data: list | str):
     """Вывод построчно с нумерацией, если список, либо вывод строки"""
     if isinstance(data, list):
         count = 1
@@ -25,21 +25,8 @@ def get_vacancies(vacancies: list) -> list[HHVacancy | SJVacancy]:
     return vacancies_list
 
 
-def get_top_vacancies_by_date(file, top_count):
-    """Возвращает top_count последних вакансий по дате публикации"""
-    with open(file) as f:
-        data = json.load(f)
-
-    data.sort(key=lambda k: k['date_published'], reverse=True)
-    top_vacancies = data[:top_count]
-
-    return get_vacancies(top_vacancies)
-
-
-def get_top_vacancies_by_to_salary(top_count, file):
+def get_top_vacancies_by_to_salary(data, top_count):
     """Возвращает top_count вакансий по максимальной зарплате"""
-    with open(file) as f:
-        data = json.load(f)
 
     # Перебор данных из файла по зарплате
     vacancies = []
@@ -54,6 +41,17 @@ def get_top_vacancies_by_to_salary(top_count, file):
     top_vacancies = vacancies[:top_count]
 
     if len(top_vacancies) == 0:
-        return "В вакансиях без опыта работы не указана зарплата"
+        return "В вакансиях не указана зарплата"
     else:
         return get_vacancies(top_vacancies)
+
+
+def check_search(hh: HH, sj: SuperJob) -> bool:
+    """Проверка на существование вакансии"""
+    return hh.get_request()['items'] != [] or sj.get_request()['objects'] != []
+
+
+def get_top_vacancies_by_date(data: list, top_count: int) -> list:
+    """Сортирует по дате"""
+    vacancies = get_vacancies(data)
+    return sorted(vacancies, reverse=True)[:top_count]
