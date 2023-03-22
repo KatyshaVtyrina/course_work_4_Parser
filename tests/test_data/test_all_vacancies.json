@@ -1,0 +1,131 @@
+[
+  {
+    "source": "HeadHunter",
+    "name": "Программист Python Junior",
+    "url": "https://hh.ru/vacancy/77146976",
+    "description": null,
+    "salary": null,
+    "date_published": "16.03.2023 17:55:48"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Python разработчик",
+    "url": "https://hh.ru/vacancy/77650733",
+    "description": null,
+    "salary": {
+      "from": null,
+      "to": 200000,
+      "currency": "RUR",
+      "gross": true
+    },
+    "date_published": "15.03.2023 14:29:44"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Разработчик Python",
+    "url": "https://hh.ru/vacancy/77871173",
+    "description": null,
+    "salary": {
+      "from": 90000,
+      "to": null,
+      "currency": "RUR",
+      "gross": false
+    },
+    "date_published": "16.03.2023 10:47:31"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Разработчик Python",
+    "url": "https://hh.ru/vacancy/77091466",
+    "description": null,
+    "salary": {
+      "from": 0,
+      "to": 0,
+      "currency": "RUR",
+      "gross": false
+    },
+    "date_published": "15.03.2023 18:18:49"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Программист/Python-разработчик",
+    "url": "https://hh.ru/vacancy/77901810",
+    "description": null,
+    "salary": {
+      "from": 100000,
+      "currency": "RUR",
+      "gross": false
+    },
+    "date_published": "16.03.2023 14:45:13"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Программист Python",
+    "url": "https://hh.ru/vacancy/77725574",
+    "description": null,
+    "salary": {
+      "from": null,
+      "to": 100000,
+      "currency": "RUR",
+      "gross": false
+    },
+    "date_published": "15.03.2023 15:02:14"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Python-разработчик (Django, DRF)",
+    "url": "https://hh.ru/vacancy/70705466",
+    "description": null,
+    "salary": {
+      "from": 60000,
+      "to": 220000,
+      "currency": "RUR",
+      "gross": false
+    },
+    "date_published": "13.03.2023 21:00:14"
+  },
+  {
+    "source": "HeadHunter",
+    "name": "Программист Python",
+    "url": "https://hh.ru/vacancy/78094097",
+    "description": null,
+    "salary": {
+      "from": 50000,
+      "to": 100000,
+      "currency": "RUR",
+      "gross": false
+    },
+    "date_published": "15.03.2023 15:04:33"
+  },
+  {
+    "source": "SuperJob",
+    "name": "DevOps Engineer",
+    "url": "https://www.superjob.ru/vakansii/devops-engineer-34424249.html",
+    "description": "Мы — IT-компания, которая 23 года успешно создает технологии для подбора персонала и поиска работы. Ежегодно мы помогаем найти работу миллионам специалистов. Сейчас в компании работает более 300 сотрудников, которые управляют аудиторией в 10 миллионов пользователей ежемесячно.\n\nМы развиваем сервисы SuperJob на всех платформах и ведем секретные разработки в области искусственного интеллекта. Последняя наша разработка — сервис «SuperJob — Работа рядом с домом» — в ближайшие три года снизит пассажиропотоки в крупных городах на треть!\n\nВспомните 10 крупнейших банков, которые знаете! Это наши клиенты. А вместе с ними еще несколько сотен.\n\nА теперь — 10 самых крупных магазинов? Это тоже наши клиенты.\n\nИ с ними десятки тысяч других магазинов. Все страховые компании и пенсионные фонды, лучшие IT-компании и крупнейшие промышленные предприятия страны — клиенты SuperJob.",
+    "salary": {
+      "from": 60000,
+      "to": 250000,
+      "currency": "rub"
+    },
+    "date_published": "16.03.2023 10:35:03"
+  },
+  {
+    "source": "SuperJob",
+    "name": "Программист Python",
+    "url": "https://www.superjob.ru/vakansii/programmist-python-44186748.html",
+    "description": "Деятельность в сфере гидрометеорологии и мониторинга окружающей среды.",
+    "salary": {
+      "from": 70000,
+      "to": 230000,
+      "currency": "rub"
+    },
+    "date_published": "16.03.2023 13:09:47"
+  },
+  {
+    "source": "SuperJob",
+    "name": "Программист Linux",
+    "url": "https://www.superjob.ru/vakansii/programmist-linux-45695529.html",
+    "description": "IT технологии, АСУТП, защита информации, проектирование АСУТП, создание защищенных сетей передачи данных.",
+    "date_published": "10.03.2023 13:14:33"
+  }
+]
