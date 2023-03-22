@@ -10,7 +10,7 @@ class Engine(ABC):
     @abstractmethod
     def get_request(self):
         """Запрос вакансий через API"""
-        ...
+        pass
 
     @staticmethod
     def get_connector(file_name: str) -> Connector:
@@ -23,10 +23,9 @@ class HH(Engine):
 
     def __init__(self, search: str, experience=None):
         """Инициализируется запросом пользователя"""
-        self.search = search
-        self.__params = {'text': f'{self.search}', 'page': 0, 'per_page': 100}
+        self.params = {'text': f'{search}', 'page': 0, 'per_page': 100}
         if experience is not None:
-            self.__params['experience'] = experience
+            self.params['experience'] = experience
 
     @staticmethod
     def get_format_date(date: str) -> str:
@@ -37,7 +36,7 @@ class HH(Engine):
     def get_request(self):
         """Запрос вакансий через API"""
         try:
-            response = requests.get(self.URL, self.__params)
+            response = requests.get(self.URL, self.params)
             if response.status_code == 200:
                 return response.json()
 
@@ -61,21 +60,21 @@ class HH(Engine):
         vacancies = []
         page = 0
         while True:
-            self.__params['page'] = page
+            self.params['page'] = page
             data = self.get_request()
             for vacancy in data.get('items'):
-                if vacancy in vacancies:
-                    continue
-
-                elif vacancy.get('salary') is not None and vacancy.get('salary').get('currency') is not None:
+                if vacancy.get('salary') is not None and vacancy.get('salary').get('currency') is not None:
+                    # если зп рубли, добавляем в список, если нет, пропускаем
                     if vacancy.get('salary').get('currency') == "RUR":
                         vacancies.append(self.get_info_vacancy(vacancy))
                     else:
                         continue
+
+                # если зп не указана, добавляем в список
                 else:
                     vacancies.append(self.get_info_vacancy(vacancy))
 
-            if data.get('pages') - page <= 1:
+            if data.get('found') == len(vacancies):
                 break
 
             elif len(vacancies) >= 500:
@@ -92,10 +91,11 @@ class SuperJob(Engine):
     HEADERS = {"X-Api-App-Id": os.environ["SUPERJOB_API_KEY"]}
     URL = 'https://api.superjob.ru/2.0/vacancies/'
 
-    def __init__(self, search: str):
+    def __init__(self, search: str, experience=None):
         """Инициализируется запросом пользователя"""
-        self.search = search
-        self.__params = {'keywords': f'{self.search}', 'count': 100,  'page': 0}
+        self.params = {'keywords': f'{search}', 'count': 100,  'page': 1}
+        if experience is not None:
+            self.params['experience'] = experience
 
     @staticmethod
     def get_format_date(date: int) -> str:
@@ -106,7 +106,7 @@ class SuperJob(Engine):
     def get_request(self):
         """Запрос вакансий через API"""
         try:
-            response = requests.get(url=self.URL, headers=self.HEADERS, params=self.__params)
+            response = requests.get(url=self.URL, headers=self.HEADERS, params=self.params)
             if response.status_code == 200:
                 return response.json()
         except requests.RequestException:
@@ -123,7 +123,6 @@ class SuperJob(Engine):
             'url': data['link'],
             'description': data.get('client').get('description'),
             'salary': salary,
-            'experience': data.get('experience').get('title'),
             'date_published': self.get_format_date((data['date_published'])),
         }
         return info
@@ -132,43 +131,14 @@ class SuperJob(Engine):
         """Получает список всех вакансий"""
         vacancies = []
         for i in range(10):
-            self.__params['page'] = i
+            self.params['page'] = i
             data = self.get_request()
-            for vacancy in data['objects']:
-                if vacancy in vacancies:
-                    continue
-                elif vacancy.get('currency') is not None:
+            for vacancy in data.get('objects'):
+                if vacancy.get('currency') is not None:
                     if vacancy.get('currency') == "rub":
                         vacancies.append(self.get_info_vacancy(vacancy))
                     else:
                         continue
-                else:
-                    vacancies.append(self.get_info_vacancy(vacancy))
             if len(vacancies) >= 500:
                 break
         return vacancies
-
-    def get_vacancies_no_experience(self) -> list:
-        """Получает список всех вакансий без опыта работы"""
-        vacancies = []
-        for i in range(10):
-            self.__params['page'] = i
-            data = self.get_request()
-            for vacancy in data.get('objects'):
-                if vacancy.get('experience').get('title') == 'Без опыта':
-                    if vacancy in vacancies:
-                        continue
-                    elif vacancy.get('currency') is not None:
-                        if vacancy.get('currency') == "rub":
-                            vacancies.append(self.get_info_vacancy(vacancy))
-                        else:
-                            continue
-                    else:
-                        vacancies.append(self.get_info_vacancy(vacancy))
-            if len(vacancies) >= 500:
-                break
-
-        return vacancies
-
-
-hh = SuperJob('python')
